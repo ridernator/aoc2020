@@ -1,0 +1,32 @@
+#!/bin/bash
+
+declare -ri STRIP_WIDTH=31
+
+calcTreesHit() {
+    local -i xPos=0
+    local -i treeCount=0
+    local -i lineCount=0
+    local -ri xInc="$1"
+    local -ri yInc="$2"
+
+    while read line; do
+        if test $((lineCount++ % yInc)) -eq 0; then
+            if test "${line:xPos:1}" = "#"; then
+                ((++treeCount))
+            fi
+
+            ((xPos += xInc))
+            ((xPos %= STRIP_WIDTH))
+        fi
+    done < input
+
+    echo "$treeCount"
+}
+
+declare -i treeCount=$(calcTreesHit 1 1)
+((treeCount *= $(calcTreesHit 3 1)))
+((treeCount *= $(calcTreesHit 5 1)))
+((treeCount *= $(calcTreesHit 7 1)))
+((treeCount *= $(calcTreesHit 1 2)))
+
+echo "result is $treeCount"

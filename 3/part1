@@ -1,0 +1,18 @@
+#!/bin/bash
+
+declare -i xPos=0
+declare -i treeCount=0
+
+declare -ri X_INC=3
+declare -ri STRIP_WIDTH=31
+
+while read line; do
+    if test "${line:xPos:1}" = "#"; then
+        ((++treeCount))
+    fi
+
+    ((xPos += X_INC))
+    ((xPos %= STRIP_WIDTH))
+done < input
+
+echo "result is $treeCount"
