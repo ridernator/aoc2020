@@ -1,0 +1,17 @@
+#!/bin/bash
+
+declare -ri NUMBER_TO_FIND=2020
+
+while read number; do
+    numbers+=($number)
+done < input
+
+for ((index1=0; index1 < ${#numbers[@]}; ++index1)) do
+    for ((index2=$(( index1 + 1 )); index2 < ${#numbers[@]}; ++index2)) do
+        if test $((${numbers[index1]} + ${numbers[index2]})) -eq $NUMBER_TO_FIND; then
+            echo "result is $((${numbers[index1]} * ${numbers[index2]}))"
+
+            exit 0
+        fi
+    done
+done
