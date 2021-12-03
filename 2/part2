@@ -1,0 +1,22 @@
+#!/bin/bash
+
+declare -i goodPassCount=0
+
+while read line; do
+    pos1="$(($(echo $line | cut --fields=1 --delimiter="-") - 1))"
+    pos2="$(($(echo $line | cut --fields=2 --delimiter="-" | cut --fields=1 --delimiter=" ") -1))"
+    letter="$(echo $line | cut --fields=2 --delimiter=" " | cut --fields=1 --delimiter=":")"
+    password="$(echo $line | cut --fields=3 --delimiter=" ")"
+
+    test ${password:pos1:1} = "$letter"
+    pass1=$?
+    
+    test ${password:pos2:1} = "$letter"
+    pass2=$?
+
+    if test $pass1 -ne $pass2; then
+        ((++goodPassCount))
+    fi
+done < input
+
+echo "result is $goodPassCount"
